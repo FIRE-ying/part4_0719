@@ -34,9 +34,7 @@ public class Test {
      * 测试分支开发
      */
     public static void main(String[] args) {
-
-        String zhuang="lizhuangzhuang";
-        String la="hahaha";
+        System.out.println("000000000");
     }
 
 }
