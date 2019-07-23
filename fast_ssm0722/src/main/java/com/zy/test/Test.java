@@ -31,10 +31,12 @@ public class Test {
         System.err.println(i>0?"success":"fail");
     }
     /**
-     * 测试分支开发
+     * 测试分支开发123456
      */
     public static void main(String[] args) {
-        System.out.println("000000000");
+
+
+        System.out.println("999");
     }
 
 }
