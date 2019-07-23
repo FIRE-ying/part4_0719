@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布房屋</title>
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+    <!--引入CSS-->
+    <link rel="stylesheet" type="text/css" href="webuploader/webuploader.css">
+
+
+    <!--引入jquery-->
+    <script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+    <!--引入JS-->
+    <script type="text/javascript" src="webuploader/webuploader.js"></script>
+
+    <!--SWF在初始化的时候指定，在后面将展示-->
+
+    <script>
+
+        $(function () {//页面加载后执行
+            // 初始化Web Uploader
+            var uploader = WebUploader.create({
+
+                // 选完文件后，是否自动上传。
+                auto: true,
+
+                // swf文件路径
+                swf:  '/webuploader/Uploader.swf',
+
+                // 文件接收服务端。
+                server: '/fileupload.json',
+
+                // 选择文件的按钮。可选。
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: '#filePicker',
+
+                // 只允许选择图片文件。
+                accept: {
+                    title: 'Images',
+                    extensions: 'gif,jpg,jpeg,bmp,png',
+                    mimeTypes: 'image/*'
+                }
+            });
+
+            // 当有文件添加进来的时候
+            uploader.on( 'fileQueued', function( file ) {
+                var $li = $(
+                    '<div id="' + file.id + '" class="file-item thumbnail">' +
+                    '<img>' +
+                    '<div class="info">' + file.name + '</div>' +
+                    '</div>'
+                    ),
+                    $img = $li.find('img');
+
+
+                //得到回显图片的容器
+                var $list  =$("#fileList");
+
+                // $list为容器jQuery实例
+                $list.append( $li );
+
+                // 创建缩略图
+                // 如果为非图片文件，可以不用调用此方法。
+                // thumbnailWidth x thumbnailHeight 为 100 x 100
+                uploader.makeThumb( file, function( error, src ) {
+                    if ( error ) {
+                        $img.replaceWith('<span>不能预览</span>');
+                        return;
+                    }
+
+                    $img.attr( 'src', src );
+                }, 100, 100 );
+            });
+
+            // 文件上传过程中创建进度条实时显示。
+            uploader.on( 'uploadProgress', function( file, percentage ) {
+                var $li = $( '#'+file.id ),
+                    $percent = $li.find('.progress span');
+
+                // 避免重复创建
+                if ( !$percent.length ) {
+                    $percent = $('<p class="progress"><span></span></p>')
+                        .appendTo( $li )
+                        .find('span');
+                }
+
+                $percent.css( 'width', percentage * 100 + '%' );
+            });
+
+            // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+            /**
+             * file {File}File对象
+             response {Object}服务端返回的数据
+             */
+            uploader.on( 'uploadSuccess', function( file ,r) {
+                $( '#'+file.id ).addClass('upload-state-done');
+
+                console.log(r.status+"---"+r.msg+"---"+r.url);
+
+                var $images = $("#images");
+                var $imagesValue = $images.val();
+                console.log("$imagesValue"+$imagesValue);
+                if ($imagesValue==null||$imagesValue.length==0){
+                    //第一张图片
+                    //jquery 怎么给表单赋值
+                    //$images.val(r.url);
+                    $images.attr("value",r.url);
+                    //http://192.168.82.88:82/group1/M00/00/00/wKhSWF01e6mASBq1AACyFVi7h8Y204.jpg
+                }else{
+                    //第2-n张图片
+                    $imagesValue =  $imagesValue+","+r.url;
+
+                    $images.attr("value",$imagesValue);
+                }
+
+
+                //http://xxxxxx/qdqd.jpg,http://xxxxxx/qsssdqd.jpg,http://xxxxxx/qdqd.jpg
+
+
+            });
+
+            // 文件上传失败，显示上传出错。
+            uploader.on( 'uploadError', function( file ) {
+                var $li = $( '#'+file.id ),
+                    $error = $li.find('div.error');
+
+                // 避免重复创建
+                if ( !$error.length ) {
+                    $error = $('<div class="error"></div>').appendTo( $li );
+                }
+
+                $error.text('上传失败');
+            });
+
+            // 完成上传完了，成功或者失败，先删除进度条。
+            uploader.on( 'uploadComplete', function( file ) {
+                $( '#'+file.id ).find('.progress').remove();
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+
+
+<form action="/addHouseInfo.json" method="post">
+    <div class="form-group">
+        <!-- for="usernameInput 的值为输入的框的id的值
+
+            功能：点击label标签的文本，对应的输入框会获得焦点
+        -->
+        <label for="usernameInput">房屋标题</label>
+        <input type="text" class="form-control" id="usernameInput" name="title" />
+    </div>
+    <div class="form-group">
+        <!-- for="usernameInput 的值为输入的框的id的值
+
+            功能：点击label标签的文本，对应的输入框会获得焦点
+        -->
+        <label for="passwordInput">价格</label>
+        <input type="text" class="form-control" id="passwordInput" name="price" />
+    </div>
+    <div class="form-group">
+        <!-- for="usernameInput 的值为输入的框的id的值
+
+            功能：点击label标签的文本，对应的输入框会获得焦点
+        -->
+        <label for="address">地址</label>
+        <input type="text" class="form-control" id="address" name="address" />
+    </div>
+    <div class="form-group">
+        <!-- for="usernameInput 的值为输入的框的id的值
+
+            功能：点击label标签的文本，对应的输入框会获得焦点
+        -->
+        <label for="desc">描述</label>
+        <input type="text" class="form-control" id="desc" name="desc" />
+    </div>
+
+    <!--dom结构部分-->
+    <div id="uploader-demo">
+        <!--用来存放item(回显图片)-->
+        <div id="fileList" class="uploader-list"></div>
+        <div id="filePicker">选择图片</div>
+    </div>
+
+    <!--新增的房屋的图片地址-->
+    <input type="hidden" name="images" id="images">
+
+
+    <div class="form-group">
+
+        <input type="submit" class="form-control"  value="提交" />
+    </div>
+
+
+</form>
+
+
+
+</body>
+</html>

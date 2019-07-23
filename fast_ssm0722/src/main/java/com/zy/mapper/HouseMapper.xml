@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zy.mapper.HouseMapper">
+
+    <!--public  int saveHouseInfo(HouseInfo houseInfo);-->
+    <insert id="saveHouseInfo" parameterType="com.zy.pojo.House">
+        insert into house(title,price,images,`desc`) value(#{title},#{price},#{images},#{desc})
+    </insert>
+
+    <!--public List<HouseInfo> findAll();-->
+    <select id="findAll" resultType="com.zy.pojo.House">
+        select * from house
+    </select>
+</mapper>
