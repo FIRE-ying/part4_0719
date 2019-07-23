@@ -30,5 +30,13 @@ public class Test {
         int i =  houseInfoMapper.saveHouseInfo(info);
         System.err.println(i>0?"success":"fail");
     }
+    /**
+     * 测试分支开发
+     */
+    public static void main(String[] args) {
+
+        String zhuang="lizhuangzhuang";
+        String la="hahaha";
+    }
 
 }
