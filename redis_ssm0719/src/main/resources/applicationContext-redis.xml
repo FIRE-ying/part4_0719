@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- redis  整合  spring
+
+     1）jedis的连接池
+
+     2）JedisConnectionFactory
+
+     3） redisTemplate
+
+    -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${redis.maxActive}"></property>
+        <property name="maxIdle" value="${redis.maxIdle}"></property>
+        <property name="maxWaitMillis" value="${redis.maxWait}"></property>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"></property>
+
+    </bean>
+
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="port" value="${redis.port}"></property>
+        <property name="hostName" value="${redis.host}"></property>
+        <property name="password" value="${redis.password}"></property>
+        <property name="poolConfig" ref="jedisPoolConfig"></property>
+    </bean>
+
+
+    <!--
+
+    GenericToStringSerializer: 可以将任何对象泛化为字符串并序列化
+JacksonJsonRedisSerializer: 序列化object对象为json字符串
+Jackson2JsonRedisSerializer: 跟JacksonJsonRedisSerializer实际上是一样的
+JdkSerializationRedisSerializer: 序列化java对象（被序列化的对象必须实现Serializable接口）
+StringRedisSerializer: 简单的字符串序列化
+GenericToStringSerializer:类似StringRedisSerializer的字符串序列化
+GenericJackson2JsonRedisSerializer:类似Jackson2JsonRedisSerializer，但使用时构造函数不用特定的类参考以上序列化,自定义序列化类; 
+
+key和hashKey:    推荐使用     StringRedisSerializer: 简单的字符串序列化
+
+hashValue:          推荐使用     GenericJackson2JsonRedisSerializer:序列化object对象为json字符串
+    -->
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"></bean>
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"></bean>
+        </property>
+
+        <!--事务-->
+        <property name="enableTransactionSupport" value="true"></property>
+
+        <!--RedisConnectionFactory is required-->
+        <property name="connectionFactory" ref="connectionFactory"></property>
+
+    </bean>
+
+
+
+
+
+</beans>        

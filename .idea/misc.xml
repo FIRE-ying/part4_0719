@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/fast_ssm0722" />
+    <file type="web" url="file://$PROJECT_DIR$/fast_ssm_house0722" />
+    <file type="web" url="file://$PROJECT_DIR$/fastdfs_java0722" />
+    <file type="web" url="file://$PROJECT_DIR$/redis_ssm0719" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/redis_ssm0719/pom.xml" />
+        <option value="$PROJECT_DIR$/fast_ssm0722/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/fastdfs_java0722/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="fastdfs_ssm0722:war">
+    <output-path>$PROJECT_DIR$/fastdfs_java0722/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>fastdfs_ssm0722</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="redis_ssm0719.war">
+      <element id="artifact" artifact-name="fastdfs_ssm0722:war exploded" />
+    </root>
+  </artifact>
+</component>

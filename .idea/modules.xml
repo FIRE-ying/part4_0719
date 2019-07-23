@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/fast_ssm0722/fast_ssm0722.iml" filepath="$PROJECT_DIR$/fast_ssm0722/fast_ssm0722.iml" />
+      <module fileurl="file://$PROJECT_DIR$/redis_ssm0719/redis_ssm0719.iml" filepath="$PROJECT_DIR$/redis_ssm0719/redis_ssm0719.iml" />
+    </modules>
+  </component>
+</project>
